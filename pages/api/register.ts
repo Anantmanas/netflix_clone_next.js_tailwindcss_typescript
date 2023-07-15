@@ -4,10 +4,15 @@ import prismadb from '@/lib/prismadb';
 
 export default async function handler(req:NextApiRequest, res:NextApiResponse){
     if(req.method !== 'POST'){
-        return res.status(405).end();
+         res.status(405).end();
+         return;
     }
     try{
      const {email, name, password} = req.body;
+
+     if (!email || !name || !password) {
+        res.status(400).json({ error: 'Missing required fields' });
+      }
 
      const existingUser = await prismadb.user.findUnique({
         where:{
@@ -15,7 +20,8 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse){
         }
      })
      if(existingUser){
-        return res.status(422).json({error:'Email is already taken'});
+        res.status(422).json({error:'Email is already taken'});
+        return;
      }
      
      const hashedPassword = await bcrypt.hash(password,12)
@@ -28,9 +34,10 @@ export default async function handler(req:NextApiRequest, res:NextApiResponse){
             emailVerified: new Date(),
         }
      })
+     res.status(200).json(user);
     }
     catch(err){
         console.log(err);
-        return res.status(400).end();
+         res.status(400).json({ error: `Something went wrong: ${err}` });
     }
 }

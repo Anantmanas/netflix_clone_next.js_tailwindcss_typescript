@@ -1,11 +1,12 @@
 import axios from 'axios';
 import Input from "@/components/input"
 import { useCallback, useState } from "react"
-import { signIn } from 'next-auth/react'
+import {getSession, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router';
 
 import {FcGoogle} from 'react-icons/fc'
 import {FaGithub} from 'react-icons/fa'
+
 
 const Auth = () => {
 	const router = useRouter();

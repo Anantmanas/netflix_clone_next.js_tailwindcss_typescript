@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+
 }
 
 datasource db {
@@ -22,6 +23,7 @@ model User{
   favoriteIds String[] @db.ObjectId
   sessions Session[]
   accounts Account[]
+
 }
 
 model Account{
@@ -30,8 +32,8 @@ model Account{
   type String 
   provider String
   providerAccountId String
-  rfresh_token String? @db.ObjectId
-  access_token String? @db.ObjectId
+   refresh_token  String?  @db.String
+  access_token    String? 
   expires_at Int?
   token_type String?
   scope String?
