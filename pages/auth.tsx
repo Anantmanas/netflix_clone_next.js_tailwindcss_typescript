@@ -2,15 +2,14 @@ import axios from 'axios';
 import Input from "@/components/input"
 import { useCallback, useState } from "react"
 import {getSession, signIn } from 'next-auth/react'
-import { useRouter } from 'next/router';
+
 
 import {FcGoogle} from 'react-icons/fc'
 import {FaGithub} from 'react-icons/fa'
 
 
 const Auth = () => {
-	const router = useRouter();
-
+	
 	const [email, setEmail] = useState('');
 	const [name, setName] = useState('');
 	const [password, setPassword] = useState('');
@@ -25,16 +24,15 @@ const Auth = () => {
 			await signIn('credentials', {
 				email,
 				password,
-				redirect: false,
-				callbackUrl: '/'
+				callbackUrl: '/profiles'
 			});
 
-			router.push('/')
+			
 		}
 		catch (err) {
 			console.log(err);
 		}
-	}, [email, password, router]);
+	}, [email, password]);
 
 
 	const register = useCallback(async () => {
@@ -75,10 +73,10 @@ const Auth = () => {
 						<button onClick={variant === 'login' ? login : register} className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">{variant === 'login' ? 'Login' : 'Sign up'}</button>
 
 						<div className='flex flex-row item-center gap-4 mt-8 justify-center'>
-							<div onClick={()=> signIn('google',{callbackUrl:'/'})} className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'>
+							<div onClick={()=> signIn('google',{callbackUrl:'/profiles'})} className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'>
 								<FcGoogle size={30}/>
 							</div>
-							<div onClick={()=> signIn('github',{callbackUrl:'/'})} className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'>
+							<div onClick={()=> signIn('github',{callbackUrl:'/profiles'})} className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'>
 								<FaGithub size={30}/>
 							</div>
 						</div>
